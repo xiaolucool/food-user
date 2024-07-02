@@ -13,7 +13,7 @@
             <van-col span="20">
                 <div class="grid">
                     <div class="card" v-for="item in shoppingList" :key="item.id">
-                        <img class="card-img" :src="'/img/1.jpg'" alt="">
+                        <img class="card-img" :src="`/img/${item.image}`" alt="">
                         <div class="card-content">
                             <div class="card-top">
                                 <div class="card-title">{{ item.name }}</div>
@@ -39,7 +39,7 @@
             <div class="tc">
                 <div class="grid">
                     <div class="card" v-for="item in cart" :key="item.id">
-                        <img class="card-img" height="150" width="200" :src="'/img/1.jpg'" alt="">
+                        <img class="card-img" height="150" width="200" :src="`/img/${item.image}`" alt="">
                         <div class="card-content">
                             <div class="card-top">
                                 <div class="card-title">{{ item.name }}</div>

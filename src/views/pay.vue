@@ -145,7 +145,7 @@ const totalPrice = computed(() => {
         <div class="box">
             <div class="grid">
                 <div class="card" v-for="item in cart" :key="item.id">
-                    <img class="card-img" height="150" width="200" :src="'/img/1.jpg'" alt="">
+                    <img class="card-img" height="150" width="200" :src="`/img/${item.image}`" alt="">
                     <div class="card-content">
                         <div class="card-top">
                             <div class="card-title">{{ item.name }}</div>
@@ -171,7 +171,7 @@ const totalPrice = computed(() => {
                 <van-cell-group inset>
                     <van-field v-model="phone" label="手机号" placeholder="请输入手机号" type="tel"
                         :rules="[{ pattern, required: true, message: '手机号格式错误' }]" required />
-                    <van-field v-model="remark" rows="2" autosize label="订单留言" type="textarea" maxlength="20"
+                    <van-field v-model="remark" rows="2" autosize label="订单备注" type="textarea" maxlength="20"
                         placeholder="请输入备注" show-word-limit />
                 </van-cell-group>
             </van-form>

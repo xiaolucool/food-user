@@ -32,12 +32,15 @@ const goShpping = (tableId: number) => {
     </div> -->
     <!-- /宫格 -->
     <van-grid :column-num="4">
-      <van-grid-item icon-color="#FDA483" v-for="item in 12" icon="records-o" :text="`${item}号卓`" @click="goShpping(item)" />
+      <van-grid-item icon-color="#FDA483" v-for="item in 12" icon="records-o" :text="`${item}号桌`" @click="goShpping(item)" />
     </van-grid>
   </div>
 </template>
 
 <style soped>
+.home {
+  background: white;
+}
 .my-swipe .van-swipe-item {
   color: #fff;
   font-size: 20px;

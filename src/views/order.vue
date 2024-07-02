@@ -159,7 +159,7 @@ const formattedDate = (dateString: string) => {
                 <van-grid-item v-for="item in goods" :key="item.id">
                     <div class="card">
                         <van-card :num="item.num" :price="item.price" :desc="item.des" :title="item.name"
-                            thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg" />
+                            :thumb="`/img/${item.image}`" />
                     </div>
                 </van-grid-item>
             </van-grid>
