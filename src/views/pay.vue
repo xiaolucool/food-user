@@ -97,15 +97,24 @@ const confirmBuy = async () => {
  * 加入购物车
  * @param {object} item 商品对象
  */
-const addToCart = (item: Goods) => {
-    cart.value.forEach(element => {
+ const addToCart = (item: Goods) => {
+    // 遍历购物车数组
+    let updated = false
+    cart.value = cart.value.map(element => {
+        // 如果找到相同id的商品，增加数量并返回新对象
         if (element.id === item.id) {
-            element.num++
+            updated = true // 标记已更新
+            return { ...element, num: element.num + 1 } // 使用扩展运算符创建新对象
         }
-    })
-    // 按照id去重后加入数组
-    cart.value = cart.value.filter(element => element.id !== item.id)
-    cart.value.push(item)
+        // 否则返回原对象
+        return element;
+    });
+
+    // 如果没有找到相同id的商品，说明是新商品，需要添加到购物车
+    if (!updated) {
+        cart.value.push(item)
+    }
+
     // 存储到本地
     window.localStorage.setItem('cart', JSON.stringify(cart.value))
 }
@@ -157,7 +166,7 @@ const totalPrice = computed(() => {
                         <div class="card-top">
                             <div class="card-title">{{ item.name }}</div>
                             <div class="card-desc">
-                                <van-text-ellipsis :content="item.des" />
+                                <van-text-ellipsis rows="1" :content="item.des" />
                             </div>
                             <div class="card-price">¥{{ item.price }}</div>
                         </div>
@@ -193,12 +202,16 @@ const totalPrice = computed(() => {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    padding: 5px;
 }
 
 .card {
     display: flex;
     background: white;
     overflow: hidden;
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .card-img {

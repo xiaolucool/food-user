@@ -170,7 +170,7 @@ const formattedDate = (dateString: string) => {
                                 </van-image>
                             </template>
                             <template #desc>
-                                <van-text-ellipsis :content="item.des" />
+                                <van-text-ellipsis rows="2" :content="item.des" />
                             </template>
                         </van-card>
                     </div>
