@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { getOrder } from '@/api/order'
 import { useRoute, useRouter } from 'vue-router'
-import { showFailToast } from 'vant'
+import { showFailToast, showSuccessToast } from 'vant'
 import { useWindowSize } from '@vant/use';
 
 
@@ -54,6 +54,8 @@ const active = ref(0)
 const phone = ref('')
 // 宫格列
 const colNum = ref(2)
+// 刷新
+const loading = ref(false)
 
 const getOrderStatus = async () => {
     // 获取手机号
@@ -96,6 +98,18 @@ watch([width, height], () => {
     console.log('window resized');
 })
 
+// 下拉刷新
+const onRefresh = () => {
+    try {
+        getOrderStatus()
+        showSuccessToast('刷新成功')
+    } catch (error) {
+        showFailToast('刷新失败')
+    }
+    loading.value = false
+}
+
+
 // 浮动气泡点击事件
 const onFloatClick = () => {
     let tableId = localStorage.getItem('tableId') as string
@@ -122,40 +136,44 @@ const formattedDate = (dateString: string) => {
 </script>
 
 <template>
-    <div v-if="orderInfo">
-        <van-nav-bar title="订单详情" />
-        <van-cell title="订单进度" />
-        <van-steps direction="vertical" :active="active" active-color="#FDA483" inactive-color="#ECF0F8">
-            <van-step>
-                <h3>订单完成</h3>
-                <p>{{ orderInfo.endTime ? formattedDate(orderInfo.endTime) : '' }}</p>
-            </van-step>
-            <van-step>
-                <h3>等待出餐</h3>
-                <!-- <p>2016-07-11 10:00</p> -->
-            </van-step>
-            <van-step>
-                <h3>等待确认</h3>
-                <p>{{ formattedDate(orderInfo.createTime) }}</p>
-            </van-step>
-        </van-steps>
-        <van-cell title="订单列表" />
-        <van-grid :border="true" :column-num="colNum" class="grid">
-            <van-grid-item v-for="item in goods" :key="item.id">
-                <div class="card">
-                    <van-card :num="item.num" :price="item.price" :desc="item.des" :title="item.name"
-                        thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg" />
-                </div>
-            </van-grid-item>
-        </van-grid>
-    </div>
+    <van-nav-bar title="订单详情" />
+    <van-pull-refresh v-model="loading" @refresh="onRefresh">
+        <div v-if="orderInfo" class="order">
+            <van-cell icon="location-o" title="订单进度" />
+            <van-steps direction="vertical" :active="active" active-color="#FDA483" inactive-color="#ECF0F8">
+                <van-step>
+                    <h3>订单完成</h3>
+                    <p>{{ orderInfo.endTime ? formattedDate(orderInfo.endTime) : '' }}</p>
+                </van-step>
+                <van-step>
+                    <h3>等待出餐</h3>
+                    <!-- <p>2016-07-11 10:00</p> -->
+                </van-step>
+                <van-step>
+                    <h3>等待确认</h3>
+                    <p>{{ formattedDate(orderInfo.createTime) }}</p>
+                </van-step>
+            </van-steps>
+            <van-cell icon="label-o" title="订单列表" :label="`备注：${orderInfo.remark}`" />
+            <van-grid :border="true" :column-num="colNum" class="grid">
+                <van-grid-item v-for="item in goods" :key="item.id">
+                    <div class="card">
+                        <van-card :num="item.num" :price="item.price" :desc="item.des" :title="item.name"
+                            thumb="https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg" />
+                    </div>
+                </van-grid-item>
+            </van-grid>
+        </div>
+    </van-pull-refresh>
     <van-floating-bubble icon="shopping-cart-o" @click="onFloatClick" />
 </template>
 
 <style scoped>
-.grid{
+.order {
+    height: 100vh;
     background: white;
 }
+
 .card {
     width: 100%;
 }
