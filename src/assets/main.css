@@ -2,7 +2,10 @@
 
 #app {
   height: 100vh;
-  background-color: #ECF0F8;
+  background: #f9f7f7;
+  /* background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); */
+  /* background-image: url('./logo.png'); */
+  /* background-repeat: no-repeat; */
 }
 /* #app {
 }

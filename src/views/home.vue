@@ -41,6 +41,7 @@ const goShpping = (tableId: number) => {
 .home {
   background: white;
 }
+
 .my-swipe .van-swipe-item {
   color: #fff;
   font-size: 20px;

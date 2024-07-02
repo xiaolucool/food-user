@@ -158,8 +158,21 @@ const formattedDate = (dateString: string) => {
             <van-grid :border="true" :column-num="colNum" class="grid">
                 <van-grid-item v-for="item in goods" :key="item.id">
                     <div class="card">
-                        <van-card :num="item.num" :price="item.price" :desc="item.des" :title="item.name"
-                            :thumb="`/img/${item.image}`" />
+                        <van-card :num="item.num" lazy-load show-loading loading-icon="loading" :price="item.price"
+                            :desc="item.des" :title="item.name" :thumb="`/img/${item.image}`">
+                            <template #thumb>
+                                <van-image lazy-load width="88" height="88" class="card-img"
+                                    :src="`/img/${item.image}`" :alt="item.name">
+                                    <template v-slot:loading>
+                                        <van-loading type="spinner" size="20" />
+                                    </template>
+                                    <template v-slot:error>加载失败</template>
+                                </van-image>
+                            </template>
+                            <template #desc>
+                                <van-text-ellipsis :content="item.des" />
+                            </template>
+                        </van-card>
                     </div>
                 </van-grid-item>
             </van-grid>

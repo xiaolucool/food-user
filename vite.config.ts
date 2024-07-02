@@ -26,14 +26,14 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // target: 'https://orderfood.katr.tk/api',
-        target: 'http://127.0.0.1:8080/api',
+        target: 'https://food.281718.xyz/api',
+        // target: 'http://127.0.0.1:8080/api',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
       },
       '/img': {
-        // target: 'https://orderfood.katr.tk/img',
-        target: 'http://127.0.0.1:8081',
+        target: 'https://food.281718.xyz/img',
+        // target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/img/, '')
       }

@@ -52,7 +52,7 @@ const getCart = () => {
 getCart()
 
 // 动态判断是否可以点击弹窗确认按钮
-const btnStatus = computed(() => phone.value == '' || phone.value.length != 11 ? true : false )
+const btnStatus = computed(() => phone.value == '' || phone.value.length != 11 ? true : false)
 
 // 返回上一页
 const onClickLeft = () => {
@@ -145,7 +145,14 @@ const totalPrice = computed(() => {
         <div class="box">
             <div class="grid">
                 <div class="card" v-for="item in cart" :key="item.id">
-                    <img class="card-img" height="150" width="200" :src="`/img/${item.image}`" alt="">
+                    <!-- <img class="card-img" height="150" width="200" :src="`/img/${item.image}`" alt=""> -->
+                    <van-image lazy-load height="150" width="300" class="card-img" :src="`/img/${item.image}`"
+                        :alt="item.name">
+                        <template v-slot:loading>
+                            <van-loading type="spinner" size="20" />
+                        </template>
+                        <template v-slot:error>加载失败</template>
+                    </van-image>
                     <div class="card-content">
                         <div class="card-top">
                             <div class="card-title">{{ item.name }}</div>
@@ -155,7 +162,8 @@ const totalPrice = computed(() => {
                             <div class="card-price">¥{{ item.price }}</div>
                         </div>
                         <div class="card-bottom">
-                            <van-stepper min="0" button-size="16" theme="round" v-model="item.num" @minus="onMinus(item)" @plus="addToCart(item)" />
+                            <van-stepper min="0" button-size="16" theme="round" v-model="item.num"
+                                @minus="onMinus(item)" @plus="addToCart(item)" />
                         </div>
                     </div>
                 </div>
@@ -165,8 +173,8 @@ const totalPrice = computed(() => {
         <van-submit-bar :price="totalPrice" button-text="购买" @submit="onSubmit" />
 
         <!-- 弹窗 -->
-        <van-dialog v-model:show="show" title="订单确认信息" show-cancel-button @confirm="confirmBuy"
-            :confirm-button-disabled="btnStatus">
+        <van-dialog v-model:show="show" title="订单确认信息" confirm-button-color="#ff9a00" show-cancel-button
+            @confirm="confirmBuy" :confirm-button-disabled="btnStatus">
             <van-form>
                 <van-cell-group inset>
                     <van-field v-model="phone" label="手机号" placeholder="请输入手机号" type="tel"

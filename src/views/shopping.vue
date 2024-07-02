@@ -13,7 +13,14 @@
             <van-col span="20">
                 <div class="grid">
                     <div class="card" v-for="item in shoppingList" :key="item.id">
-                        <img class="card-img" :src="`/img/${item.image}`" alt="">
+                        <!-- <img class="card-img" :src="`/img/${item.image}`" alt=""> -->
+                        <van-image lazy-load height="150" width="300" class="card-img" :src="`/img/${item.image}`"
+                            :alt="item.name">
+                            <template v-slot:loading>
+                                <van-loading type="spinner" size="20" />
+                            </template>
+                            <template v-slot:error>加载失败</template>
+                        </van-image>
                         <div class="card-content">
                             <div class="card-top">
                                 <div class="card-title">{{ item.name }}</div>
@@ -23,10 +30,10 @@
                                 <div class="card-price">¥{{ item.price }}</div>
                             </div>
                             <div class="card-bottom">
-                                <van-button v-if="item.num == 0" type="warning" plain round  size="mini"
+                                <van-button v-if="item.num == 0" type="warning" plain round size="mini"
                                     @click="addToCart(item)"><van-icon size="18" name="shopping-cart-o" /></van-button>
-                                <van-stepper button-size="16" theme="round" v-else min="0" v-model="item.num" @minus="onMinus(item)"
-                                    @plus="addToCart(item)" />
+                                <van-stepper button-size="16" theme="round" v-else min="0" v-model="item.num"
+                                    @minus="onMinus(item)" @plus="addToCart(item)" />
                             </div>
                         </div>
                     </div>
@@ -39,7 +46,15 @@
             <div class="tc">
                 <div class="grid">
                     <div class="card" v-for="item in cart" :key="item.id">
-                        <img class="card-img" height="150" width="200" :src="`/img/${item.image}`" alt="">
+                        <van-image lazy-load height="150" width="300" class="card-img" :src="`/img/${item.image}`"
+                            :alt="item.name">
+                            <template v-slot:loading>
+                                <van-loading type="spinner" size="20" />
+                            </template>
+                            <template v-slot:error>加载失败</template>
+                        </van-image>
+
+                        <!-- <img v-lazy="img"  height="150" width="200"  alt=""> -->
                         <div class="card-content">
                             <div class="card-top">
                                 <div class="card-title">{{ item.name }}</div>
@@ -49,16 +64,17 @@
                                 <div class="card-price">¥{{ item.price }}</div>
                             </div>
                             <div class="card-bottom">
-                                <van-stepper min="0" theme="round" button-size="16" v-model="item.num" @minus="onMinus(item)"
-                                    @plus="addToCart(item)" />
+                                <van-stepper min="0" theme="round" button-size="16" v-model="item.num"
+                                    @minus="onMinus(item)" @plus="addToCart(item)" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <van-submit-bar :price="totalPrice + 0.00" button-text="提交订单" tip-icon="info-o" tip="点击下方按钮清空购物车"  @submit="onSubmit" >
+            <van-submit-bar :price="totalPrice + 0.00" button-text="提交订单" tip-icon="info-o" tip="点击下方按钮清空购物车"
+                @submit="onSubmit">
                 <van-badge :content="cartNum">
-                    <van-icon size="24" name="close" @click="clearCart"/>
+                    <van-icon size="24" name="close" @click="clearCart" />
                 </van-badge>
             </van-submit-bar>
         </van-action-sheet>
@@ -136,14 +152,9 @@ const clearCart = () => {
 
 // 切换菜单
 const onChange = () => {
-    console.log(active.value)
-    if (active.value == 0) {
-        shoppingList.value = goods.value
-    } else {
-        shoppingList.value = goods.value.filter(item => {
-            return item.dishType.find(item => item.id == active.value)
-        })
-    }
+    shoppingList.value = goods.value.filter(item => {
+        return item.dishType.find(item => item.name == menuList.value[active.value].name)
+    })
 }
 
 // 获取商品列表
@@ -258,7 +269,8 @@ const totalPrice = computed(() => {
 }
 
 .left-nav {
-    background: #F7F8FA;
+    /* background: #F7F8FA; */
+    background: #f8f3d4;
     /* height: 100vh; */
     height: calc(100vh - var(--offset-vh));
 }
@@ -337,9 +349,11 @@ const totalPrice = computed(() => {
     .grid {
         grid-template-columns: repeat(1, 1fr);
     }
+
     .card {
         height: 100px;
     }
+
     .card-img {
         width: 150px;
         height: 100px;

@@ -6,10 +6,16 @@
     --van-nav-bar-title-text-color: white;
     // 侧边导航栏
     --van-sidebar-selected-background: #F6D166;
+    --van-sidebar-selected-border-color: #f08a5d;
+    --van-sidebar-background: #f8f3d4;
     // 提交订单
     --van-submit-bar-background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
     // --van-submit-bar-text-color: white;
     // 步进器
     --van-stepper-button-round-theme-color: var(--van-warning-color);
     --van-stepper-input-text-color: var(--van-warning-color);
+    // 宫格
+    // --van-grid-item-content-background: #dbe2ef;
+    // 浮动按钮
+    --van-floating-bubble-background: #f08a5d;
 } 
