@@ -136,7 +136,7 @@ const formattedDate = (dateString: string) => {
 </script>
 
 <template>
-    <van-nav-bar title="订单详情" />
+    <van-nav-bar title="订单详情" fixed />
     <van-pull-refresh v-model="loading" @refresh="onRefresh">
         <div v-if="orderInfo" class="order">
             <van-cell icon="location-o" title="订单进度" />
