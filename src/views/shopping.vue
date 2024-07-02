@@ -14,8 +14,8 @@
                 <div class="grid">
                     <div class="card" v-for="item in shoppingList" :key="item.id">
                         <!-- <img class="card-img" :src="`/img/${item.image}`" alt=""> -->
-                        <van-image fit="cover" lazy-load height="150" width="300" class="card-img" :src="`/img/${item.image}`"
-                            :alt="item.name">
+                        <van-image fit="cover" lazy-load height="150" width="300" class="card-img"
+                            :src="`/img/${item.image}`" :alt="item.name">
                             <template v-slot:loading>
                                 <van-loading type="spinner" size="20" />
                             </template>
@@ -46,8 +46,8 @@
             <div class="tc">
                 <div class="grid">
                     <div class="card" v-for="item in cart" :key="item.id">
-                        <van-image fit="cover" lazy-load height="150" width="300" class="card-img" :src="`/img/${item.image}`"
-                            :alt="item.name">
+                        <van-image fit="cover" lazy-load height="150" width="300" class="card-img"
+                            :src="`/img/${item.image}`" :alt="item.name">
                             <template v-slot:loading>
                                 <van-loading type="spinner" size="20" />
                             </template>
@@ -191,6 +191,7 @@ const onGoods = async () => {
     })
     menuList.value = [...seen.values()]
     shoppingList.value = goods.value
+    onChange()
 }
 onGoods()
 
@@ -349,6 +350,7 @@ const totalPrice = computed(() => {
 .card-bottom {
     display: flex;
     justify-content: right;
+    margin-top: -5px;
 }
 
 :deep(.van-grid) {
@@ -378,6 +380,10 @@ const totalPrice = computed(() => {
 
     .tc {
         padding: 10px;
+    }
+
+    .card-bottom {
+        margin-top: -5px;
     }
 }
 

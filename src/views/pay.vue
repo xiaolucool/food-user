@@ -274,6 +274,10 @@ const totalPrice = computed(() => {
     .tc {
         padding: 10px;
     }
+    
+    .card-bottom {
+        margin-top: -5px;
+    }
 }
 
 /* 中等屏幕设备（如平板）的样式 */
