@@ -24,19 +24,9 @@
                         <div class="card-content">
                             <div class="card-top">
                                 <div class="card-title">{{ item.name }}</div>
-                                <van-popover v-model:show="showPopover">
-                                    <div>aaaaaaaaaaaaaaaaaaaaaaaaa</div>
-                                    <template #reference>
-                                        <div class="card-desc">
-                                            <van-text-ellipsis @click="showPopover = !showPopover" rows="1"
-                                                :content="item.des" />
-                                        </div>
-                                    </template>
-                                </van-popover>
-
-                                <!-- <div class="card-desc">
+                                <div class="card-desc">
                                     <van-text-ellipsis rows="1" :content="item.des" />
-                                </div> -->
+                                </div>
                                 <div class="card-price">¥{{ item.price }}</div>
                             </div>
                             <div class="card-bottom">
@@ -145,8 +135,6 @@ const cart = ref<Goods[]>([])
 const show = ref(false)
 // 菜单列表数组
 const menuList = ref<OrderType[]>([])
-// 气泡窗
-const showPopover = ref(false)
 
 // 打开弹出层
 const onShow = () => {
