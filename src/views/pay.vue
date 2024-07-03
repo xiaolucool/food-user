@@ -46,8 +46,6 @@ const getCart = () => {
     // 获取桌号
     tableId.value = localStorage.getItem('tableId') as string
     cart.value = JSON.parse(window.localStorage.getItem('cart') as string)
-    console.log(cart.value);
-
 }
 getCart()
 

@@ -71,13 +71,10 @@ const getOrderStatus = async () => {
         const { data } = await getOrder({
             phone: phone.value
         })
-        console.log(data.data)
         orderInfo.value = data.data[data.data.length - 1] as OrderInfo
         orderInfo.value.status === "等待确认" ? active.value = 2 : orderInfo.value.status === "等待出餐" ? active.value = 1 : active.value = 0
         // 获取订单信息
         goods.value = JSON.parse(localStorage.getItem('cart') as string)
-        console.log('已买商品', goods.value)
-
     } catch (error) {
 
     }
@@ -88,14 +85,11 @@ getOrderStatus()
 const { width, height } = useWindowSize()
 const windowSize = () => {
     width.value > 1024 ? colNum.value = 3 : width.value > 750 ? colNum.value = 2 : colNum.value = 1
-    // console.log(width.value); // -> 窗口宽度
-    // console.log(height.value); // -> 窗口高度
 }
 windowSize()
 
 watch([width, height], () => {
     windowSize()
-    console.log('window resized');
 })
 
 // 下拉刷新
