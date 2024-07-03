@@ -215,11 +215,6 @@ const onSubmit = () => {
  * @param {object} item 商品对象
  */
 const addToCart = (item: Goods) => {
-    goods.value.forEach(element => {
-        if (element.id === item.id) {
-            element.num++
-        }
-    })
     // 遍历购物车数组
     let updated = false
     cart.value = cart.value.map(element => {
@@ -236,7 +231,11 @@ const addToCart = (item: Goods) => {
     if (!updated) {
         cart.value.push(item)
     }
-
+    goods.value.forEach(element => {
+        if (element.id === item.id) {
+            element.num++
+        }
+    })
     // 存储到本地
     window.localStorage.setItem('cart', JSON.stringify(cart.value))
 }
