@@ -6,6 +6,7 @@
             <van-col span="4">
                 <div class="left-nav">
                     <van-sidebar v-model="active" @change="onChange">
+                        <van-sidebar-item title="全部" />
                         <van-sidebar-item v-for="item in menuList" :key="item.id" :title="item.name" />
                     </van-sidebar>
                 </div>
@@ -152,9 +153,13 @@ const clearCart = () => {
 
 // 切换菜单
 const onChange = () => {
-    shoppingList.value = goods.value.filter(item => {
-        return item.dishType.find(item => item.name == menuList.value[active.value].name)
-    })
+    if (active.value == 0) {
+        shoppingList.value = goods.value
+    } else {
+        shoppingList.value = goods.value.filter(item => {
+            return item.dishType.find(item => item.name == menuList.value[active.value - 1].name)
+        })
+    }
 }
 
 // 获取商品列表
@@ -189,7 +194,9 @@ const onGoods = async () => {
     menuList.value.forEach((item) => {
         seen.set(item.id, item)
     })
-    menuList.value = [...seen.values()]
+    menuList.value = [...seen.values()] // 去重
+    menuList.value.sort((a, b) => a.id - b.id) // 安装id排序
+
     shoppingList.value = goods.value
     onChange()
 }
@@ -245,7 +252,6 @@ const addToCart = (item: Goods) => {
  * @param {object} item 商品对象
  */
 const onMinus = (item: Goods) => {
-    console.log(item)
     cart.value.forEach(element => {
         if (element.id === item.id) {
             element.num--
