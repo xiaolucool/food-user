@@ -245,14 +245,21 @@ const addToCart = (item: Goods) => {
  * @param {object} item 商品对象
  */
 const onMinus = (item: Goods) => {
-    goods.value.forEach(element => {
+    console.log(item)
+    cart.value.forEach(element => {
         if (element.id === item.id) {
             element.num--
-            if (element.num === 0) {
-                cart.value = cart.value.filter(element => element.id !== item.id)
+            if (element.num <= 0) {
+                cart.value = cart.value.filter(el => el.id !== item.id)
             }
         }
     })
+    goods.value.forEach(element => {
+        if (element.id === item.id) {
+            element.num--
+        }
+    })
+
     // 存储到本地
     window.localStorage.setItem('cart', JSON.stringify(cart.value))
 }
