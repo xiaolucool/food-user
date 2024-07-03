@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { addOrder } from '@/api/order'
-import { showSuccessToast, showFailToast } from 'vant'
+import { showSuccessToast, showFailToast, showLoadingToast, closeToast } from 'vant'
 import { useRouter } from 'vue-router'
 
 
@@ -64,6 +64,16 @@ const onSubmit = () => {
 }
 // 购买
 const confirmBuy = async () => {
+    const toast = showLoadingToast({
+        duration: 0,
+        forbidClick: true,
+        message: '下单中 0 秒',
+    });
+    let second = 0
+    const timer = setInterval(() => {
+        second++
+        toast.message = `下单中 ${second} 秒`
+    }, 1000);
     let dishs: Array<string> = []
     cart.value.forEach(element => {
         dishs.push(element.id + '.' + element.num)
@@ -75,6 +85,9 @@ const confirmBuy = async () => {
             dishs: dishs.join(','),
             remark: remark.value
         })
+        // 停止加载提示
+        clearInterval(timer)
+        closeToast()
         showSuccessToast('购买成功')
         // 购买成功跳转到order页面
         router.push({
@@ -88,6 +101,9 @@ const confirmBuy = async () => {
         // 清空手机号
         phone.value = ''
     } catch (error) {
+        // 停止加载提示
+        clearInterval(timer)
+        closeToast()
         showFailToast('购买失败')
     }
 }
@@ -97,7 +113,7 @@ const confirmBuy = async () => {
  * 加入购物车
  * @param {object} item 商品对象
  */
- const addToCart = (item: Goods) => {
+const addToCart = (item: Goods) => {
     // 遍历购物车数组
     let updated = false
     cart.value = cart.value.map(element => {
@@ -179,7 +195,7 @@ const totalPrice = computed(() => {
             </div>
         </div>
         <!-- /商品 -->
-        <van-submit-bar :price="totalPrice" button-text="购买" @submit="onSubmit" />
+        <van-submit-bar :price="totalPrice" button-text="确认订单" @submit="onSubmit" />
 
         <!-- 弹窗 -->
         <van-dialog v-model:show="show" title="订单确认信息" confirm-button-color="#ff9a00" show-cancel-button
@@ -274,7 +290,7 @@ const totalPrice = computed(() => {
     .tc {
         padding: 10px;
     }
-    
+
     .card-bottom {
         margin-top: -5px;
     }
