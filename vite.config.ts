@@ -7,9 +7,6 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from '@vant/auto-import-resolver'
 
-import vitePluginZipDist from 'vite-plugin-dist-zip'
-import {name} from './package.json'
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -19,8 +16,7 @@ export default defineConfig({
     }),
     Components({
       resolvers: [VantResolver()],
-    }),
-    vitePluginZipDist({zipName: name, dayjsFormat: ''}),
+    })
   ],
   resolve: {
     alias: {
