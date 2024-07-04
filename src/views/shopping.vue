@@ -195,8 +195,9 @@ const onGoods = async () => {
         seen.set(item.id, item)
     })
     menuList.value = [...seen.values()] // 去重
-    menuList.value.sort((a, b) => a.id - b.id) // 安装id排序
-
+    menuList.value.sort((a, b) => b.priority - a.priority) // 安装id排序
+    
+    
     shoppingList.value = goods.value
     onChange()
 }
